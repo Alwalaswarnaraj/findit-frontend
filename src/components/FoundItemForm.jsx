@@ -1,18 +1,28 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const FoundItemForm = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login"); // Redirect to login if not logged in
+    }
+  }, [token]);
+
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    location: '',
-    dateFound: '',
-    contactInfo: '',
+    title: "",
+    description: "",
+    location: "",
+    dateFound: "",
+    contactInfo: "",
   });
 
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -33,15 +43,15 @@ const FoundItemForm = () => {
     for (let key in formData) {
       data.append(key, formData[key]);
     }
-    if (image) data.append('image', image);
+    if (image) data.append("image", image);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/found', data);
-      console.log('Found item submitted successfully:', res.data);
+      const res = await axios.post("http://localhost:5000/api/found", data);
+      console.log("Found item submitted successfully:", res.data);
       // Reset the form or show success message
     } catch (err) {
-      console.error('Error submitting found item:', err);
-      setError('Failed to submit found item');
+      console.error("Error submitting found item:", err);
+      setError("Failed to submit found item");
     } finally {
       setLoading(false);
     }
@@ -107,7 +117,7 @@ const FoundItemForm = () => {
           className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
           disabled={loading}
         >
-          {loading ? 'Submitting...' : 'Submit'}
+          {loading ? "Submitting..." : "Submit"}
         </button>
       </form>
     </div>

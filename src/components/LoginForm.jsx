@@ -1,77 +1,60 @@
-// LoginForm.js
-
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const LoginForm = () => {
+const LoginPage = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async (e) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/users/login', formData);
-      if (res.data.token) {
-        localStorage.setItem('token', res.data.token);
-        navigate('/');
-      }
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed.');
-    } finally {
-      setLoading(false);
+      const res = await axios.post('http://localhost:5000/api/users/login', { email, password });
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userId', res.data.user._id);
+      navigate('/'); // Redirect to the homepage or previous page
+    } catch (error) {
+      console.error('Login failed:', error);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
-      {error && <div className="text-red-500 mb-2">{error}</div>}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full border px-4 py-2 rounded"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          className="w-full border px-4 py-2 rounded"
-          required
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition w-full"
-          disabled={loading}
-        >
-          {loading ? 'Logging In...' : 'Login'}
+    <div className="max-w-md mx-auto p-6 bg-white rounded shadow">
+      <h2 className="text-2xl font-bold mb-6">Login</h2>
+      <form onSubmit={handleLogin}>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+          <input
+            type="email"
+            id="email"
+            className="w-full p-2 border border-gray-300 rounded"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+          <input
+            type="password"
+            id="password"
+            className="w-full p-2 border border-gray-300 rounded"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" className="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          Login
         </button>
       </form>
-      <div className="text-center mt-4">
-        <a href="/forgot-password" className="text-blue-500 hover:text-blue-700">
-          Forgot your password?
-        </a>
+
+      <div className="mt-4 text-center">
+        <p>Don't have an account? <a href="/register" className="text-blue-600">Register here</a></p>
       </div>
     </div>
   );
 };
 
-export default LoginForm;
+export default LoginPage;

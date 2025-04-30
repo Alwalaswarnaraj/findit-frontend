@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'; // ✅ Import toast from react-toastify
@@ -13,6 +13,16 @@ const Register = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  // Check if user is already logged in
+  const isLoggedIn = localStorage.getItem('token');
+  
+  // Redirect to home page if already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/'); // Redirect to home page if user is logged in
+    }
+  }, [isLoggedIn, navigate]);
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -41,6 +51,7 @@ const Register = () => {
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow">
       <h2 className="text-2xl font-bold mb-4">Create an Account</h2>
       {error && <div className="text-red-500 mb-2">{error}</div>}
+      
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -87,6 +98,17 @@ const Register = () => {
           {loading ? 'Registering...' : 'Register'}
         </button>
       </form>
+      
+      <div className="mt-4 text-center">
+        <p>Already have an account? 
+          <button 
+            onClick={() => navigate('/login')} 
+            className="text-blue-600 hover:underline"
+          >
+            Login here
+          </button>
+        </p>
+      </div>
     </div>
   );
 };
