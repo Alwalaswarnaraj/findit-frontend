@@ -54,7 +54,7 @@ const ChatPage = () => {
 
   const fetchMessages = async () => {
     try {
-      const res = await api.get(`http://localhost:5000/api/conversations/${conversationId}/messages`, {
+      const res = await api.get(`/api/conversations/${conversationId}/messages`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessages(res.data);

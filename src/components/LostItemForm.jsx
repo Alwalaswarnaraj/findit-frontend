@@ -48,7 +48,7 @@ const LostItemForm = () => {
     if (image) data.append("image", image);
 
     try {
-      const res = await api.post("/lost", data, {
+      const res = await api.post("/api/lost", data, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

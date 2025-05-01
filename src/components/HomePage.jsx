@@ -14,7 +14,7 @@ const HomePage = () => {
 
   const fetchLostItems = async () => {
     try {
-      const res = await api.get(`/lost?pageNumber=${lostPage}&pageSize=3`);
+      const res = await api.get(`/api/lost?pageNumber=${lostPage}&pageSize=3`);
       const newItems = res.data.lostItems || res.data;
   
       setLostItems(prev => {
@@ -31,7 +31,7 @@ const HomePage = () => {
   
   const fetchFoundItems = async () => {
     try {
-      const res = await api.get(`http://localhost:5000/api/found?pageNumber=${foundPage}&pageSize=3`);
+      const res = await api.get(`api/found?pageNumber=${foundPage}&pageSize=3`);
       const newItems = res.data.foundItems || res.data;
   
       setFoundItems(prev => {

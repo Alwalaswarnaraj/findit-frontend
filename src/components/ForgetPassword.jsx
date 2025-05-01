@@ -22,7 +22,7 @@ const ForgotPassword = () => {
     setMessage('');
     setLoading(true);
     try {
-      const res = await api.post('/users/forgot-password', { email });
+      const res = await api.post('/api/users/forgot-password', { email });
       setMessage(res.data.message);
     } catch (err) {
       setError(err.response?.data?.message || 'Something went wrong.');

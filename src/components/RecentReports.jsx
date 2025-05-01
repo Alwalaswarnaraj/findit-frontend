@@ -11,8 +11,8 @@ const RecentReports = () => {
     const fetchReports = async () => {
       try {
         const [lostRes, foundRes] = await Promise.all([
-          api.get('/feed/lost'),
-          api.get('/feed/found')
+          api.get('/api/feed/lost'),
+          api.get('/api/feed/found')
         ]);
         setLostItems(lostRes.data);
         setFoundItems(foundRes.data);

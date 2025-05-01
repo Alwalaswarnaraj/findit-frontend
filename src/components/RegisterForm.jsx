@@ -30,7 +30,7 @@ const Register = () => {
     setError('');
     setLoading(true);
     try {
-      const res = await api.post('/users/register', formData);
+      const res = await api.post('/api/users/register', formData);
       toast.success('Registration successful! Please login.');
       navigate('/login');
     } catch (err) {

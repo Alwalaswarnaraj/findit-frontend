@@ -10,7 +10,7 @@ const LostItemList = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const res = await api.get('/lost');
+        const res = await api.get('/api/lost');
         setItems(res.data.lostItems || res.data);
       } catch (err) {
         console.error('Failed to fetch lost items:', err);

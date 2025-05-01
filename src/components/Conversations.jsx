@@ -31,7 +31,7 @@ const Conversations = () => {
 
   const handleDeleteConversation = async (conversationId) => {
     try {
-      await api.delete(`http://localhost:5000/api/conversations/${conversationId}`, {
+      await api.delete(`/api/conversations/${conversationId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       // Remove the deleted conversation from the state
