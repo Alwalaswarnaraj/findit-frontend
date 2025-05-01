@@ -48,7 +48,7 @@ const FoundItemForm = () => {
     if (image) data.append("image", image);
 
     try {
-      const res = await api.post("http://localhost:5000/api/found", data,{
+      const res = await api.post("/found", data,{
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

@@ -10,7 +10,7 @@ const FoundItemsList = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const res = await api.get('http://localhost:5000/api/found');
+        const res = await api.get('/found');
         setItems(res.data.foundItems || res.data);
       } catch (err) {
         console.error('Failed to fetch found items:', err);

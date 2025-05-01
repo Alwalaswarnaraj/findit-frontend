@@ -29,7 +29,7 @@ const FoundItemDetails = () => {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const res = await api.get(`http://localhost:5000/api/found/${id}`);
+        const res = await api.get(`/found/${id}`);
         setItem(res.data);
         setLoading(false);
       } catch (err) {

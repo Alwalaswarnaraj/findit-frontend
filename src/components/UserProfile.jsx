@@ -15,9 +15,9 @@ const UserProfile = () => {
       try {
         const headers = { Authorization: `Bearer ${token}` };
         const [userRes, lostRes, foundRes] = await Promise.all([
-          api.get('http://localhost:5000/api/users/me', { headers }),
-          api.get('http://localhost:5000/api/lost/mine', { headers }),
-          api.get('http://localhost:5000/api/found/mine', { headers }),
+          api.get('/me', { headers }),
+          api.get('/lost/mine', { headers }),
+          api.get('/found/mine', { headers }),
         ]);
         setUser(userRes.data);
         setLostItems(Array.isArray(lostRes.data) ? lostRes.data : []);
@@ -36,10 +36,10 @@ const UserProfile = () => {
     try {
       const headers = { Authorization: `Bearer ${token}` };
       if (type === 'lost') {
-        await api.delete(`http://localhost:5000/api/lost/${id}`, { headers });
+        await api.delete(`/lost/${id}`, { headers });
         setLostItems(prev => prev.filter(item => item._id !== id));
       } else {
-        await api.delete(`http://localhost:5000/api/found/${id}`, { headers });
+        await api.delete(`/found/${id}`, { headers });
         setFoundItems(prev => prev.filter(item => item._id !== id));
       }
     } catch (err) {

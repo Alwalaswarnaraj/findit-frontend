@@ -14,7 +14,7 @@ const HomePage = () => {
 
   const fetchLostItems = async () => {
     try {
-      const res = await api.get(`http://localhost:5000/api/lost?pageNumber=${lostPage}&pageSize=3`);
+      const res = await api.get(`/lost?pageNumber=${lostPage}&pageSize=3`);
       const newItems = res.data.lostItems || res.data;
   
       setLostItems(prev => {

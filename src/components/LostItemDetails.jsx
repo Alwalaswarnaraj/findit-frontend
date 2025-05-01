@@ -29,7 +29,7 @@ const LostItemDetails = () => {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const res = await api.get(`http://localhost:5000/api/lost/${id}`);
+        const res = await api.get(`/lost/${id}`);
         setItem(res.data);
         setLoading(false);
       } catch (error) {

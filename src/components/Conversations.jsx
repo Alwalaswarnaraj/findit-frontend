@@ -12,7 +12,7 @@ const Conversations = () => {
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const res = await api.get('http://localhost:5000/api/conversations', {
+        const res = await api.get('/conversations', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setConversations(res.data);
