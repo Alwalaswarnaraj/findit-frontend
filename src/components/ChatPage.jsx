@@ -5,7 +5,7 @@ import { io } from 'socket.io-client';
 import { Trash2 } from 'lucide-react';
 import api from '../../api';
 
-const socket = io('http://localhost:5000');
+// const socket = io('http://localhost:5000');
 
 const ChatPage = () => {
   const { conversationId } = useParams();
