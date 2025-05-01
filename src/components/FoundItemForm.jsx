@@ -10,7 +10,7 @@ const FoundItemForm = () => {
     if (!token) {
       navigate("/login"); // Redirect to login if not logged in
     }
-  }, [token]);
+  }, [token, navigate]);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -38,20 +38,26 @@ const FoundItemForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
 
     const data = new FormData();
-    for (let key in formData) {
-      data.append(key, formData[key]);
-    }
+    Object.entries(formData).forEach(([key, value]) => {
+      data.append(key, value);
+    });
     if (image) data.append("image", image);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/found", data);
+      const res = await axios.post("http://localhost:5000/api/found", data,{
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log("Found item submitted successfully:", res.data);
       // Reset the form or show success message
     } catch (err) {
       console.error("Error submitting found item:", err);
-      setError("Failed to submit found item");
+      setError(err.response?.data?.message ||  "Failed to submit found item");
     } finally {
       setLoading(false);
     }

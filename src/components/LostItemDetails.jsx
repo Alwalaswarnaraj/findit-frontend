@@ -1,15 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { Copy, MessageSquare } from "lucide-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LostItemDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
-  const token = localStorage.getItem('token');
-  const currentUserId = localStorage.getItem('userId');
+  const token = localStorage.getItem("token");
+  const currentUserId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        toast.dismiss(); // Dismiss all toasts
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -18,7 +32,7 @@ const LostItemDetails = () => {
         setItem(res.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching item:', error);
+        console.error("Error fetching item:", error);
         setLoading(false);
       }
     };
@@ -26,60 +40,81 @@ const LostItemDetails = () => {
     fetchItem();
   }, [id]);
 
-  const startConversation = async () => {
-    if (!item || !item.user || !item.user._id) {
-      console.error('No user info found for the item.');
-      alert('Unable to contact owner. Please try again later.');
-      return;
-    }
-
-    try {
-      const res = await axios.post(
-        'http://localhost:5000/api/conversations',
-        { receiverId: item.user._id },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      navigate(`/messages/${res.data._id}`);
-    } catch (err) {
-      console.error('Failed to start conversation:', err);
-      alert('Failed to start conversation. Please try again later.');
+  const handleCopy = () => {
+    if (item?.contactInfo) {
+      navigator.clipboard.writeText(item.contactInfo);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (!item) return <p>Item not found.</p>;
+  const handleComingSoon = () => {
+    toast.info("Coming soon!", { position: "top-center" });
+  };
+
+  if (loading)
+    return <p className="text-center mt-6 text-gray-500">Loading...</p>;
+  if (!item)
+    return <p className="text-center mt-6 text-gray-500">Item not found.</p>;
 
   return (
-    <div className="max-w-5xl mx-auto mt-8 p-6 bg-white rounded shadow flex flex-col md:flex-row gap-6 items-start">
-      {/* Left: Text Info */}
-      <div className="flex-1">
-        <h2 className="text-2xl font-bold mb-2">{item.title}</h2>
-        <p className="text-gray-600 mb-4">{item.description}</p>
-        <p className="text-sm text-gray-500 mb-2">
-          Posted by: {item.user?.name || 'Unknown'}
-        </p>
+    <>
+      <ToastContainer />
+      <div className="max-w-5xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg flex flex-col md:flex-row gap-8 items-start">
+        <div className="flex-1">
+          <h2 className="text-3xl font-bold mb-3 text-gray-800">
+            {item.title}
+          </h2>
+          <p className="text-gray-700 mb-4">{item.description}</p>
 
-        {token && item.user?._id !== currentUserId && (
-          <button
-            onClick={startConversation}
-            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            Message Owner
-          </button>
+          <div className="space-y-2 text-sm text-gray-600">
+            <p>
+              <strong>Location Lost:</strong> {item.location}
+            </p>
+            <p>
+              <strong>Date Lost:</strong>{" "}
+              {new Date(item.dateLost).toLocaleDateString()}
+            </p>
+            <p>
+              <strong>Posted by:</strong> {item.user?.name || "Unknown"}
+            </p>
+          </div>
+
+          <div className="mt-4 bg-gray-50 p-4 rounded-lg border">
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-medium text-gray-800">Contact Info:</span>
+              <button
+                onClick={handleCopy}
+                className="text-sm text-blue-600 hover:underline flex items-center"
+              >
+                <Copy size={16} className="mr-1" />
+                {copied ? "Copied!" : "Copy"}
+              </button>
+            </div>
+            <p className="text-gray-700 break-all">{item.contactInfo}</p>
+          </div>
+
+          {token && item.user?._id !== currentUserId && (
+            <button
+              onClick={handleComingSoon}
+              className="mt-6 bg-blue-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition"
+            >
+              <MessageSquare size={18} /> Message Owner
+            </button>
+          )}
+        </div>
+
+        {item.image && (
+          <div className="w-full md:w-64 flex-shrink-0">
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-full h-auto rounded-xl object-cover shadow-md"
+            />
+          </div>
         )}
       </div>
-
-      {/* Right: Image */}
-      {item.image && (
-        <div className="w-full md:w-64 flex-shrink-0">
-          <img
-            src={item.image}
-            alt={item.title}
-            className="w-full h-auto rounded-lg object-cover"
-          />
-        </div>
-      )}
-    </div>
+    </>
   );
 };
 

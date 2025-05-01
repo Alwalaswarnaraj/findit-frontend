@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import RecentReports from './RecentReports';
 
 const Layout = ({ children }) => {
   return (
@@ -12,6 +13,7 @@ const Layout = ({ children }) => {
       {/* Main */}
       <main className="flex-grow container mx-auto p-4">
         {children}
+        {/* <RecentReports /> */}
         <ToastContainer position="top-right" autoClose={3000} />
       </main>
 
