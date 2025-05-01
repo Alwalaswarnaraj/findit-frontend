@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { toast } from 'react-toastify';
+import api from "../../api";
 
 const Navbar = () => {
   useEffect(() => {

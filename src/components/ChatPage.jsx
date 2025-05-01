@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import { Trash2 } from 'lucide-react';
+import api from '../../api';
 
 const socket = io('http://localhost:5000');
 
@@ -53,7 +54,7 @@ const ChatPage = () => {
 
   const fetchMessages = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/conversations/${conversationId}/messages`, {
+      const res = await api.get(`http://localhost:5000/api/conversations/${conversationId}/messages`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessages(res.data);
@@ -95,7 +96,7 @@ const ChatPage = () => {
 
   const handleDeleteMessage = async (messageId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/conversations/messages/${messageId}`, {
+      await api.delete(`http://localhost:5000/api/conversations/messages/${messageId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessages(prevMessages => prevMessages.filter(m => m._id !== messageId));

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Trash2 } from 'lucide-react';
+import api from '../../api';
 
 const Conversations = () => {
   const [conversations, setConversations] = useState([]);
@@ -11,7 +12,7 @@ const Conversations = () => {
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/conversations', {
+        const res = await api.get('http://localhost:5000/api/conversations', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setConversations(res.data);
@@ -30,7 +31,7 @@ const Conversations = () => {
 
   const handleDeleteConversation = async (conversationId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/conversations/${conversationId}`, {
+      await api.delete(`http://localhost:5000/api/conversations/${conversationId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       // Remove the deleted conversation from the state

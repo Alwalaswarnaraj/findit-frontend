@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import api from '../../api';
 
 const FoundItemsList = () => {
   const [items, setItems] = useState([]);
@@ -9,7 +10,7 @@ const FoundItemsList = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/found');
+        const res = await api.get('http://localhost:5000/api/found');
         setItems(res.data.foundItems || res.data);
       } catch (err) {
         console.error('Failed to fetch found items:', err);

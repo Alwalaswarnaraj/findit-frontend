@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RecentReports from './RecentReports';
+import api from '../../api';
 
 const Layout = ({ children }) => {
   return (

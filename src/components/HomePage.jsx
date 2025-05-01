@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FaSearch, FaPlusCircle } from 'react-icons/fa';
+import api from '../../api';
 
 const HomePage = () => {
   const [lostItems, setLostItems] = useState([]);
@@ -13,7 +14,7 @@ const HomePage = () => {
 
   const fetchLostItems = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/lost?pageNumber=${lostPage}&pageSize=3`);
+      const res = await api.get(`http://localhost:5000/api/lost?pageNumber=${lostPage}&pageSize=3`);
       const newItems = res.data.lostItems || res.data;
   
       setLostItems(prev => {
@@ -30,7 +31,7 @@ const HomePage = () => {
   
   const fetchFoundItems = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/found?pageNumber=${foundPage}&pageSize=3`);
+      const res = await api.get(`http://localhost:5000/api/found?pageNumber=${foundPage}&pageSize=3`);
       const newItems = res.data.foundItems || res.data;
   
       setFoundItems(prev => {

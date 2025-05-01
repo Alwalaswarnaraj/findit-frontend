@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../../api"; // Adjust the import path as necessary
 
 const LostItemForm = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const LostItemForm = () => {
     if (image) data.append("image", image);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/lost", data, {
+      const res = await api.post("http://localhost:5000/api/lost", data, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

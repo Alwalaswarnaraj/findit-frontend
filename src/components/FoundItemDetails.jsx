@@ -4,6 +4,7 @@ import axios from "axios";
 import { Copy, MessageSquare } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import api from "../../api";
 
 const FoundItemDetails = () => {
   const { id } = useParams();
@@ -28,7 +29,7 @@ const FoundItemDetails = () => {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/found/${id}`);
+        const res = await api.get(`http://localhost:5000/api/found/${id}`);
         setItem(res.data);
         setLoading(false);
       } catch (err) {

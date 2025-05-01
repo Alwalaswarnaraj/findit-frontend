@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import api from '../../api';
 
 const RecentReports = () => {
   const [lostItems, setLostItems] = useState([]);
@@ -10,8 +11,8 @@ const RecentReports = () => {
     const fetchReports = async () => {
       try {
         const [lostRes, foundRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/feed/lost'),
-          axios.get('http://localhost:5000/api/feed/found')
+          api.get('http://localhost:5000/api/feed/lost'),
+          api.get('http://localhost:5000/api/feed/found')
         ]);
         setLostItems(lostRes.data);
         setFoundItems(foundRes.data);

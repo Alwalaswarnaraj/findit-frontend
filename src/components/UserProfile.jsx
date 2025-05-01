@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { TrashIcon } from '@heroicons/react/24/solid';
+import api from '../../api';
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -14,9 +15,9 @@ const UserProfile = () => {
       try {
         const headers = { Authorization: `Bearer ${token}` };
         const [userRes, lostRes, foundRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/users/me', { headers }),
-          axios.get('http://localhost:5000/api/lost/mine', { headers }),
-          axios.get('http://localhost:5000/api/found/mine', { headers }),
+          api.get('http://localhost:5000/api/users/me', { headers }),
+          api.get('http://localhost:5000/api/lost/mine', { headers }),
+          api.get('http://localhost:5000/api/found/mine', { headers }),
         ]);
         setUser(userRes.data);
         setLostItems(Array.isArray(lostRes.data) ? lostRes.data : []);
@@ -35,10 +36,10 @@ const UserProfile = () => {
     try {
       const headers = { Authorization: `Bearer ${token}` };
       if (type === 'lost') {
-        await axios.delete(`http://localhost:5000/api/lost/${id}`, { headers });
+        await api.delete(`http://localhost:5000/api/lost/${id}`, { headers });
         setLostItems(prev => prev.filter(item => item._id !== id));
       } else {
-        await axios.delete(`http://localhost:5000/api/found/${id}`, { headers });
+        await api.delete(`http://localhost:5000/api/found/${id}`, { headers });
         setFoundItems(prev => prev.filter(item => item._id !== id));
       }
     } catch (err) {
