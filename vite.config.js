@@ -9,6 +9,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': 'https://findit-95bx.onrender.com',
+      '/api':'http://localhost:5000', // Change this to your backend server URL
     },
     // 👇 important for React Router to work on refresh/deep links
     historyApiFallback: true,

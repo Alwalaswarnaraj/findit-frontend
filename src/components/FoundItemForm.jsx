@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 
 const FoundItemForm = () => {
@@ -48,7 +49,7 @@ const FoundItemForm = () => {
     if (image) data.append("image", image);
 
     try {
-      const res = await axios.post("/api/found", data,{
+      const res = await api.post("/api/found", data,{
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
