@@ -1,9 +1,9 @@
 // src/services/api.js
 import axios from 'axios';
 
-const baseURL = import.meta.env.REACT_APP_API_URL;
+const baseURL = import.meta.env.VITE_REACT_APP_API_URL;
 
-
+console.log('Base URL:', baseURL);
 const api = axios.create({
   baseURL: baseURL,
   headers: {
