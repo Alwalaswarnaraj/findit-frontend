@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import api from '../../api';
+
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +22,7 @@ const ForgotPassword = () => {
     setMessage('');
     setLoading(true);
     try {
-      const res = await api.post('/api/users/forgot-password', { email });
+      const res = await axios.post('/api/users/forgot-password', { email });
       setMessage(res.data.message);
     } catch (err) {
       setError(err.response?.data?.message || 'Something went wrong.');

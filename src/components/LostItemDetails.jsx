@@ -4,7 +4,7 @@ import axios from "axios";
 import { Copy, MessageSquare } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import api from "../../api";
+
 
 const LostItemDetails = () => {
   const { id } = useParams();
@@ -29,7 +29,7 @@ const LostItemDetails = () => {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const res = await api.get(`/api/lost/${id}`);
+        const res = await axios.get(`/api/lost/${id}`);
         setItem(res.data);
         setLoading(false);
       } catch (error) {

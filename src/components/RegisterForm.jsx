@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import api from '../../api';
+
 
 const Register = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const Register = () => {
     setError('');
     setLoading(true);
     try {
-      const res = await api.post('/api/users/register', formData);
+      const res = await axios.post('/api/users/register', formData);
       toast.success('Registration successful! Please login.');
       navigate('/login');
     } catch (err) {

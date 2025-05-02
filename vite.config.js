@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000,
     open: true,
     proxy: {
-      '/api': 'http://localhost:5000',
+      '/api': 'https://findit-95bx.onrender.com',
     },
     // 👇 important for React Router to work on refresh/deep links
     historyApiFallback: true,

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import { Trash2 } from 'lucide-react';
-import api from '../../api';
+
 
 // const socket = io('http://localhost:5000');
 
@@ -54,7 +54,7 @@ const ChatPage = () => {
 
   const fetchMessages = async () => {
     try {
-      const res = await api.get(`/api/conversations/${conversationId}/messages`, {
+      const res = await axios.get(`/api/conversations/${conversationId}/messages`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessages(res.data);

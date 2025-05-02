@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Trash2 } from 'lucide-react';
-import api from '../../api';
 
 const Conversations = () => {
   const [conversations, setConversations] = useState([]);
@@ -12,7 +11,7 @@ const Conversations = () => {
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const res = await api.get('/conversations', {
+        const res = await axios.get('/conversations', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setConversations(res.data);
