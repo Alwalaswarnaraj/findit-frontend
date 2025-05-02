@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import RecentReports from './RecentReports';
 
 
+
 const Layout = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col">

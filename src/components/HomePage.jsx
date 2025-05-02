@@ -32,6 +32,7 @@ const HomePage = () => {
   
   const fetchFoundItems = async () => {
     try {
+      console.log('Fetching found items...',api);
       const res = await api.get(`api/found`);   //?pageNumber=${foundPage}&pageSize=3
       const newItems = res.data.foundItems || res.data;
   
