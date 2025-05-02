@@ -1,14 +1,72 @@
+// Navbar.jsx
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { toast } from 'react-toastify';
 
+const AuthLinks = ({ token, toggleMenu, handleLogout }) => (
+  <>
+    <Link
+      to="/lost/report"
+      className="text-gray-700 hover:text-blue-600"
+      onClick={toggleMenu}
+    >
+      Report Lost
+    </Link>
+    <Link
+      to="/found/report"
+      className="text-gray-700 hover:text-blue-600"
+      onClick={toggleMenu}
+    >
+      Report Found
+    </Link>
+    <Link
+      to="#"
+      onClick={(e) => {
+        e.preventDefault();
+        toggleMenu();
+        toast.info("Coming soon!", { position: "top-center" });
+      }}
+      className="block text-gray-700"
+    >
+      Messages
+    </Link>
+    <Link
+      to="/profile"
+      className="text-gray-700 hover:text-blue-600"
+      onClick={toggleMenu}
+    >
+      Profile
+    </Link>
+    <button
+      onClick={handleLogout}
+      className="text-red-600 hover:text-red-800"
+    >
+      Logout
+    </button>
+  </>
+);
+
+const NonAuthLinks = ({ toggleMenu }) => (
+  <>
+    <Link to="/login" className="text-gray-700 hover:text-blue-600" onClick={toggleMenu}>
+      Login
+    </Link>
+    <Link
+      to="/register"
+      className="text-gray-700 hover:text-blue-600"
+      onClick={toggleMenu}
+    >
+      Register
+    </Link>
+  </>
+);
 
 const Navbar = () => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        toast.dismiss(); // Dismiss all toasts
+        toast.dismiss();
       }
     };
 
@@ -36,129 +94,30 @@ const Navbar = () => {
         </Link>
         <div className="md:hidden">
           <button onClick={toggleMenu}>
-            {menuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
         <div className="hidden md:flex space-x-6 items-center">
           <Link to="/" className="text-gray-700 hover:text-blue-600">
             Home
           </Link>
-          {token && (
-            <>
-              <Link
-                to="/lost/report"
-                className="text-gray-700 hover:text-blue-600"
-              >
-                Report Lost
-              </Link>
-              <Link
-                to="/found/report"
-                className="text-gray-700 hover:text-blue-600"
-              >
-                Report Found
-              </Link>
-              <Link
-                to="#"
-                onClick={(e) => {
-                  e.preventDefault(); // prevent navigation
-                  toggleMenu(); // close menu if needed
-                  toast.info("Coming soon!", { position: "top-center" });
-                }}
-                className="block text-gray-700"
-              >
-                Messages
-              </Link>
-            </>
-          )}
           {token ? (
-            <button
-              onClick={handleLogout}
-              className="text-red-600 hover:text-red-800"
-            >
-              Logout
-            </button>
+            <AuthLinks token={token} toggleMenu={toggleMenu} handleLogout={handleLogout} />
           ) : (
-            <>
-              <Link to="/login" className="text-gray-700 hover:text-blue-600">
-                Login
-              </Link>
-              <Link
-                to="/register"
-                className="text-gray-700 hover:text-blue-600"
-              >
-                Register
-              </Link>
-            </>
+            <NonAuthLinks toggleMenu={toggleMenu} />
           )}
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden px-4 pb-4 space-y-3 bg-white shadow">
           <Link to="/" onClick={toggleMenu} className="block text-gray-700">
             Home
           </Link>
-          {token && (
-            <>
-              <Link
-                to="/report-lost"
-                onClick={toggleMenu}
-                className="block text-gray-700"
-              >
-                Report Lost
-              </Link>
-              <Link
-                to="/report-found"
-                onClick={toggleMenu}
-                className="block text-gray-700"
-              >
-                Report Found
-              </Link>
-              <Link
-                to="#"
-                onClick={(e) => {
-                  e.preventDefault(); // prevent navigation
-                  toggleMenu(); // close menu if needed
-                  toast.info("Coming soon!", { position: "top-center" });
-                }}
-                className="block text-gray-700"
-              >
-                Messages
-              </Link>
-            </>
-          )}
           {token ? (
-            <button
-              onClick={() => {
-                toggleMenu();
-                handleLogout();
-              }}
-              className="text-red-600"
-            >
-              Logout
-            </button>
+            <AuthLinks token={token} toggleMenu={toggleMenu} handleLogout={handleLogout} />
           ) : (
-            <>
-              <Link
-                to="/login"
-                onClick={toggleMenu}
-                className="block text-gray-700"
-              >
-                Login
-              </Link>
-              <Link
-                to="/register"
-                onClick={toggleMenu}
-                className="block text-gray-700"
-              >
-                Register
-              </Link>
-            </>
+            <NonAuthLinks toggleMenu={toggleMenu} />
           )}
         </div>
       )}
