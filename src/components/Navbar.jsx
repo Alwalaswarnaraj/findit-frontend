@@ -95,7 +95,7 @@ const Navbar = () => {
               <NavItem to="/profile" label="Profile" onClick={() => setMenuOpen(false)} />
               <button
                 onClick={handleLogout}
-                className="text-red-600 hover:text-red-800 transition"
+                className="text-red-600 cursor-pointer hover:text-red-800 transition"
               >
                 Logout
               </button>
