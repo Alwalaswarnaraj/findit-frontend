@@ -59,11 +59,11 @@ const Navbar = () => {
               <>
                 <NavItem to="/lost/report" label="Report Lost" />
                 <NavItem to="/found/report" label="Report Found" />
-                <button onClick={handleToast} className="text-gray-800 hover:text-blue-600">
+                <button onClick={handleToast} className="text-gray-800 hover:text-blue-600 cursor-pointer">
                   Messages
                 </button>
                 <NavItem to="/profile" label="Profile" />
-                <button onClick={handleLogout} className="text-red-600 hover:text-red-800">
+                <button onClick={handleLogout} className="text-red-600 hover:text-red-800 cursor-pointer">
                   Logout
                 </button>
               </>
@@ -95,7 +95,7 @@ const Navbar = () => {
               <NavItem to="/profile" label="Profile" onClick={() => setMenuOpen(false)} />
               <button
                 onClick={handleLogout}
-                className="text-red-600  hover:text-red-800 cursor-pointer transition"
+                className="text-red-600  hover:text-red-800 transition"
               >
                 Logout
               </button>
