@@ -101,7 +101,7 @@ const UserProfile = () => {
       <div className="mt-6 border-t pt-6 space-y-2 text-gray-700">
         <div><span className="font-medium">Full Name:</span> {user.name}</div>
         <div><span className="font-medium">Email:</span> {user.email}</div>
-        <div><span className="font-medium">Joined:</span> {new Date(user.createdAt).toLocaleDateString()}</div>
+        {/* <div><span className="font-medium">Joined:</span> {new Date(user.createdAt).toLocaleDateString()}</div> */}
       </div>
 
       <div className="mt-10">
