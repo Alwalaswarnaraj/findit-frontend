@@ -17,6 +17,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const res = await api.post('/api/users/login', { email, password });
+      console.log('Login response:', res.data);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('userId', res.data.id);   // user._id
       toast.success('Login successful!');
