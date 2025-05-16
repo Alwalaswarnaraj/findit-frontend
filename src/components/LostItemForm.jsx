@@ -61,7 +61,7 @@ const LostItemForm = () => {
       toast.success("Lost item submitted successfully!");
       setFormData({ title: "", description: "", location: "", dateLost: "", contactInfo: "" });
       setImage(null);
-      navigate("/"); // redirect or show success
+      // navigate("/"); // redirect or show success
     } catch (err) {
       console.error("Error submitting lost item:", err);
       const errorMessage = err.response?.data?.message || "Failed to submit lost item";
