@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../services/api';
-
 
 const Register = () => {
   const navigate = useNavigate();
@@ -13,7 +11,7 @@ const Register = () => {
     password: '',
     phone: '',
   });
-  const [showPassword, setShowPassword] = useState(false); // 👁 show/hide toggle
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -31,9 +29,13 @@ const Register = () => {
     setError('');
     setLoading(true);
     try {
-      const res = await api.post('/api/users/register', formData);
-      toast.success('Registration successful! Please login.');
-      navigate('/login');
+      await api.post('/api/users/register', formData);
+
+      toast.success('Registration successful! Please check your email for OTP.');
+
+      // Navigate to OTP verification page and pass email
+      navigate('/verify-email', { state: { email: formData.email } });
+
     } catch (err) {
       const message = err.response?.data?.message || 'Registration failed.';
       setError(message);
@@ -77,7 +79,6 @@ const Register = () => {
           required
         />
 
-        {/* Password with show/hide toggle */}
         <div className="relative">
           <input
             type={showPassword ? 'text' : 'password'}
@@ -123,3 +124,5 @@ const Register = () => {
 };
 
 export default Register;
+// This code is a React component for a user registration form. It includes fields for the user's name, email, phone number, and password. The password field has a toggle to show/hide the password. Upon submission, it sends a POST request to the server to register the user and navigate to an OTP verification page if successful. It also handles error messages and loading states.
+// The component uses React Router for navigation and react-toastify for notifications. The form is styled with Tailwind CSS classes for a clean and modern look.

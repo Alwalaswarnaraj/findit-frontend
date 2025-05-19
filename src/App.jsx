@@ -18,6 +18,7 @@ import ForgotPassword from './components/ForgetPassword';
 import Conversations from './components/Conversations';
 import ChatPage from './components/ChatPage';
 import UserProfile from './components/UserProfile';
+import EmailVerification from './components/EmailVerification';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path='/lost/item/:id' element={<LostItemDetails/>}/>
           <Route path='/register' element={<RegisterForm/>}/>
           <Route path='/login' element={<LoginForm/>}/>
+          <Route path='/verify-email' element={<EmailVerification/>}/>
           <Route path='/reset-password/:token' element={<ResetPassword/>}/>
           <Route path='/forgot-password' element={<ForgotPassword/>}/>
           <Route path='/conversations' element={<Conversations/>}/>
