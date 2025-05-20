@@ -1,71 +1,79 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const baseURL = import.meta.env.VITE_REACT_APP_API_URL;
 
 const EmailVerification = () => {
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
-  const [message, setMessage] = useState('');
-  const [verified, setVerified] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage('');
+    setLoading(true);
 
     try {
-      const res = await axios.post(`${baseURL}/api/users/verify-otp`, {email, otp}); // Adjust URL if needed
-      setMessage(res.data.message);
-      setVerified(true);
+      const res = await axios.post(`${baseURL}/api/users/verify-otp`, {
+        email,
+        otp,
+      });
+
+      toast.success(res.data.message || 'Email verified successfully!');
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000); // Delay for UX
     } catch (err) {
-      setMessage(err.response?.data?.message || 'Verification failed');
+      const message = err.response?.data?.message || 'Verification failed';
+      toast.error(message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 to-white">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-md w-full max-w-md"
+        className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-blue-200"
       >
-        <h2 className="text-2xl font-bold mb-4 text-center">
-          Email Verification
+        <h2 className="text-3xl font-bold mb-6 text-center text-blue-700">
+          Verify Your Email
         </h2>
 
-        <input
-          type="email"
-          className="w-full p-2 border mb-3 rounded"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <div className="mb-4">
+          <label className="block mb-1 text-gray-700 font-medium">Email</label>
+          <input
+            type="email"
+            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
 
-        <input
-          type="text"
-          className="w-full p-2 border mb-3 rounded"
-          placeholder="Enter OTP"
-          value={otp}
-          onChange={(e) => setOtp(e.target.value)}
-          required
-        />
+        <div className="mb-6">
+          <label className="block mb-1 text-gray-700 font-medium">OTP</label>
+          <input
+            type="text"
+            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter OTP sent to your email"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            required
+          />
+        </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          disabled={loading}
+          className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
         >
-          Verify Email
+          {loading ? 'Verifying...' : 'Verify'}
         </button>
-
-        {message && (
-          <p
-            className={`mt-4 text-center ${
-              verified ? 'text-green-600' : 'text-red-600'
-            }`}
-          >
-            {message}
-          </p>
-        )}
       </form>
     </div>
   );
