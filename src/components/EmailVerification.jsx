@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const baseURL = import.meta.env.VITE_REACT_APP_API_URL;
+
 const EmailVerification = () => {
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
@@ -12,7 +14,7 @@ const EmailVerification = () => {
     setMessage('');
 
     try {
-      const res = await axios.post('/api/users/verify-otp', {email, otp}); // Adjust URL if needed
+      const res = await axios.post(`${baseURL}/api/users/verify-otp`, {email, otp}); // Adjust URL if needed
       setMessage(res.data.message);
       setVerified(true);
     } catch (err) {
