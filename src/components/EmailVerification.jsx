@@ -12,7 +12,7 @@ const EmailVerification = () => {
     setMessage('');
 
     try {
-      const res = await axios.post('/api/opt/verify-otp', { email, otp }); // Adjust URL if needed
+      const res = await axios.post('/api/users/verify-otp', { email, otp }); // Adjust URL if needed
       setMessage(res.data.message);
       setVerified(true);
     } catch (err) {
